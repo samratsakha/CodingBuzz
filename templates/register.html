@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <title>CodingBuzz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+
+
+        header {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(0, 217, 255);
+            height: 105px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>CodingBuzz</h1>
+    </header>
+    <br>
+    <div class="main-content">
+        <h3>Online Competitive Programming Platform</h3>
+        <h3>Skill up your coding skills by finishing the registration</h3>
+        <h2 class="body_texts">Enter your E-mail and Password to register</h2><br>
+
+        <form action="{{ url_for('dashboard')}}" method="post" id="myform">
+
+
+            <h3 class="body_fill">Email : <input id="email" name="email_id" placeholder="Enter your E-mail id" type="email"></h3>
+            <h3 class="body_fill">Password : <input id="pwd" name="pwd_id" placeholder="Enter your Password" type="password"></h3>
+            <h4>Password should have atleast 8 characters</h4>
+            <h4>And should contain uppercase,lowercase and a number</h4>
+
+        </form>
+
+        <h3><button id="otp-btn" onclick="sendotp()">Get OTP</button></h3>
+        <h3 class="body_fill">Enter OTP : <input id="password" placeholder="Enter your OTP" type="password"></h3><br>
+        <h3><button class="body_fill" id="accept" onclick="start_quiz()">Submit</button><br><br></h3>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var pwd="", email="", x, y,email_conform="",pwd_conform="";
+
+    var end = 0;
+
+    var pass_email;
+
+    var user_attempt = 0;
+
+    var turn1, turn2, turn3, turn4;
+
+    var otpfinal, temp_mail = "";
+
+
+
+    function otpgenerator() {
+        turn1 = Math.random() * 10;
+        turn1 = Math.floor(turn1);
+        turn2 = Math.random() * 10;
+        turn2 = Math.floor(turn2);
+        turn3 = Math.random() * 10;
+        turn3 = Math.floor(turn3);
+        turn4 = Math.random() * 10;
+        turn4 = Math.floor(turn4);
+        if (turn1 == 0) {
+            turn1 = 1;
+        }
+        if (turn2 == 0) {
+            turn2 = 1;
+        }
+        if (turn3 == 0) {
+            turn3 = 1;
+        }
+        if (turn4 == 0) {
+            turn4 = 1;
+        }
+        otpfinal = (turn1 * 1000) + (turn2 * 100) + (turn3 * 10) + (turn4 * 1);
+    }
+
+
+
+    function sendotp() {
+
+
+        email = document.getElementById("email").value;
+        pwd = document.getElementById("pwd").value;
+
+        x = /^([a-z A-Z 0-9 \.-]+)@([a-z A-Z 0-9 -]+)\.([a-z]{2,10})(.[a-z]{2,10})?$/;
+        if (email.trim() == "") {
+            alert("Enter your email ID");
+            document.getElementById("email").style.border = "solid 3px red";
+            return;
+        }
+        if (!(x.test(email))) {
+            alert("Enter a valid email ID");
+            document.getElementById("email").style.border = "solid 3px red";
+            return;
+        }
+        document.getElementById("email").style.border = "";
+
+        if (pwd.trim() == "") {
+            alert("Enter a password");
+            document.getElementById("pwd").style.border = "solid 3px red";
+            return;
+        }
+        var lowerCaseLetters = /[a-z]/g;
+        if (!(pwd.match(lowerCaseLetters))) {
+            alert("Password should contain atleast one lowercase alphabet");
+            document.getElementById("pwd").style.border = "solid 3px red";
+            return;
+        }
+        var upperCaseLetters = /[A-Z]/g;
+        if (!(pwd.match(upperCaseLetters))) {
+            alert("Password should contain atleast one uppercase alphabet");
+            document.getElementById("pwd").style.border = "solid 3px red";
+            return;
+        }
+        var numbers = /[0-9]/g;
+        if (!(pwd.match(numbers))) {
+            alert("Password should contain atleast one number");
+            document.getElementById("pwd").style.border = "solid 3px red";
+            return;
+        }
+        if (pwd.length <= 8) {
+            alert("Password length should be atlest 8 characters");
+            document.getElementById("pwd").style.border = "solid 3px red";
+            return;
+        }
+        document.getElementById("pwd").style.border = "";
+
+        x = /^([a-z A-Z 0-9 \.-]+)@([a-z A-Z 0-9 -]+)\.([a-z]{2,10})(.[a-z]{2,10})?$/;
+        if (x.test(email)) {
+            if (email == temp_mail) {
+                alert("OTP already sent to - " + email);
+            }
+            else {
+                temp_mail = email;
+                localStorage.setItem("email_id", email);
+
+                otpgenerator();
+
+                Email.send({
+                    Host: "smtp.gmail.com",
+                    Username: "quizziemania@gmail.com",
+                    Password: "samratsyedkpq842",
+                    To: email,
+                    From: "quizziemania@gmail.com",
+                    Subject: "CodingBuzz - One Time Password",
+                    Body: "Your OTP to start coding in CodingBuzz is " + otpfinal + ". Do not share your OTP with anyone.<br>Happy Coding - CodingBuzz"
+                }).then(
+                    message => alert("OTP has been sent to your Email-ID")
+                );
+
+                localStorage.setItem("user_attempt", user_attempt);
+                document.getElementById("email").style.border = "";
+            }
+        }
+        else {
+            alert("Enter a Valid E-mail");
+            document.getElementById("email").style.border = "solid 4px red";
+        }
+    }
+
+
+    function start_quiz() {
+
+        pwd2 = document.getElementById("password").value;
+        email_conform = document.getElementById("email").value;
+        pwd_conform = document.getElementById("pwd").value;
+        end=0;
+
+        if(!(email_conform.trim()==email.trim())){
+            alert("Error\nPlease reload and register again");
+            return;
+        }
+
+        if(!(pwd_conform.trim()==pwd.trim())){
+            alert("Error\nPlease reload and register again");
+            return;
+        }
+
+        if (pwd2.trim() == "") {
+            alert("Enter Your OTP");
+            document.getElementById("password").style.border = "solid 4px red";
+        }
+        else if (pwd2.trim() == otpfinal) {
+            document.getElementById("password").style.border = "";
+            end=1;
+            document.getElementById("myform").submit();
+        }
+        else {
+            alert("Enter the correct OTP");
+            document.getElementById("password").style.border = "solid 4px red";
+        }
+    }
+
+
+    window.onbeforeunload = function (e) {
+        if (end == 1) {
+            window.location.reload(false);
+        }
+        else {
+            return "Are you sure";
+        }
+    };
+
+</script>
+
+</html>

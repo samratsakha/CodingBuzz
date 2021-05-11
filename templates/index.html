@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>CodingBuzz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+
+
+        header {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(0, 217, 255);
+            height: 105px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>CodingBuzz</h1>
+    </header>
+    <br>
+    <div class="main-content">
+        <h3>Online Competitive Programming Platform</h3>
+        <h3>Skill up your coding skills by logging in</h3>
+        
+        <form action="{{ url_for('register')}}" method="post" id="myform">
+            <h3>New User? <button type="submit">Register</button></h3>
+        </form>
+
+        <form action="{{ url_for('login')}}" method="post" id="loginform">
+            <h3 class="body_texts">Enter your E-mail and Password to start coding</h3><br>
+            <h3 class="body_fill">Email : <input id="email" name="email_id" placeholder="Enter your E-mail id" type="email"></h3>
+            <h3 class="body_fill">Password : <input type="password" name="pwd_id" id="password" name="psw" placeholder="Enter your password"></h3>
+        </form>
+
+        <h3><button onclick="get_login()">Login</button></h3>
+        <h3 id="update_info" style="display: none; color: red;"></h3>
+        <h4>Forgot Password? <br><br>Register again with the same Email-ID</h4>
+    </div>
+</body>
+<script type="text/javascript">
+
+function get_login(){
+    email = document.getElementById("email").value;
+    pwd = document.getElementById("password").value;
+
+    x = /^([a-z A-Z 0-9 \.-]+)@([a-z A-Z 0-9 -]+)\.([a-z]{2,10})(.[a-z]{2,10})?$/;
+    if (email.trim() ==""){
+        alert("Enter your email ID");
+        document.getElementById("email").style.border = "solid 3px red";
+        return;
+    }
+    if (!(x.test(email))) {
+        alert("Enter a valid email ID");
+        document.getElementById("email").style.border = "solid 3px red";
+        return;
+    }
+    document.getElementById("email").style.border = "";
+
+    if (pwd.trim() == ""){
+        alert("Enter your password");
+        document.getElementById("password").style.border = "solid 3px red";
+        return;
+    }
+    var lowerCaseLetters = /[a-z]/g;
+    if(!(pwd.match(lowerCaseLetters))){
+        alert("Incorrect Password");
+        document.getElementById("password").style.border = "solid 3px red";
+        return;
+    }
+    var upperCaseLetters = /[A-Z]/g;
+    if(!(pwd.match(upperCaseLetters))) {
+        alert("Incorrect Password");
+        document.getElementById("password").style.border = "solid 3px red";
+        return;   
+    }
+    var numbers = /[0-9]/g;
+    if(!(pwd.match(numbers))) {
+        alert("Incorrect Password");
+        document.getElementById("password").style.border = "solid 3px red";
+        return;  
+    }
+    if(pwd.length<=8) {
+        alert("Incorrect Password");
+        document.getElementById("password").style.border = "solid 3px red";
+        return;  
+    }
+    document.getElementById("loginform").submit();
+}
+
+let incorrect_pwd = '{{ incorrect_pwd }}';
+let email_pass = '{{ email_pass }}';
+
+if (incorrect_pwd=="YES"){
+    document.getElementById("update_info").innerHTML="Incorrect Password";
+    document.getElementById("update_info").style.display="block";
+    document.getElementById("email").value=email_pass;
+}
+else if(incorrect_pwd=="YES_REGISTER"){
+    document.getElementById("update_info").innerHTML="User not registered";
+    document.getElementById("update_info").style.display="block";
+    document.getElementById("email").value=email_pass;
+}
+else{
+    document.getElementById("update_info").style.display="none";
+}
+
+</script>
+
+</html>

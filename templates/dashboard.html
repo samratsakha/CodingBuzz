@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>CodingBuzz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+
+
+        header {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(0, 217, 255);
+            height: 105px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .program {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+            justify-content: left;
+            align-items: left 20px;
+            text-align: 20px;
+            background-color: rgba(82, 132, 136, 0.4);
+            margin: 0%;
+        }
+    
+        .program:hover {
+            cursor: pointer;
+            background-color: rgba(225, 236, 232, 0.8);
+            color: black;
+        }
+
+        .program h3{
+            margin-left: 4%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>CodingBuzz</h1>
+    </header>
+    <br>
+    <div class="main-content">
+        <h3>Start solving the programs by choosing any of the below</h3>
+    </div><br>
+    <div class="program" onclick="program_1_open()">
+        <form action="{{ url_for('program_1')}}" method="post" id="start_program_1">
+            <h3>1.) Odd Numbers in a Range</h3>
+        </form>
+    </div><br>
+    <div class="program" onclick="program_2_open()">
+        <form action="{{ url_for('program_2')}}" method="post" id="start_program_2">
+            <h3>2.) Reverse a Integer</h3>
+        </form>
+    </div><br>
+    <div class="program" onclick="program_3_open()">
+        <form action="{{ url_for('program_3')}}" method="post" id="start_program_3">
+            <h3>3.) Change Alphabetic Cases in a String</h3>
+        </form>
+    </div><br>
+    <div class="program" onclick="program_4_open()">
+        <form action="{{ url_for('program_4')}}" method="post" id="start_program_4">
+            <h3>4.) Second largest element in an Array</h3>
+        </form>
+    </div><br>
+</body>
+<script type="text/javascript">
+
+function program_1_open(){
+    document.getElementById("start_program_1").submit();
+}
+
+function program_2_open(){
+    document.getElementById("start_program_2").submit();
+}
+
+function program_3_open(){
+    document.getElementById("start_program_3").submit();
+}
+
+function program_4_open(){
+    document.getElementById("start_program_4").submit();
+}
+
+</script>
+
+</html>

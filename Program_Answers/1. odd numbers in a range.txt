@@ -1,0 +1,54 @@
+num = input()
+num = num.split()
+num = [int(i) for i in num]
+
+for i in range(num[0]+1,num[1]):
+    if i%2!=0:
+        print(i,end=" ")
+
+
+
+#include<iostream>
+using namespace std;
+int main(){
+int a,b;
+cin>>a>>b;
+for(int i=a+1;i<b;i++){
+if(i%2!=0){
+cout<<i<<" ";
+}
+}
+}
+
+#include<stdio.h>
+
+int main(){
+int a,b;
+scanf("%d %d",&a,&b);
+for(int i=a+1;i<b;i++){
+if(i%2!=0){
+printf("%d ",i);
+}
+}
+}
+
+// Java Program to Print Odd Numbers from 1 to N using For loop
+import java.util.Scanner;
+
+public class OddNumbers2 {
+	private static Scanner sc;
+	public static void main(String[] args) 
+	{
+		int number,last, i;
+		sc = new Scanner(System.in);
+		
+		number = sc.nextInt();	
+                last= sc.nextInt();
+		
+		for(i = number+1; i < last; i=i+1)
+		{
+if(i%2!=0){
+			System.out.print(i +" "); }
+		}	
+	}
+}

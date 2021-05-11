@@ -1,0 +1,74 @@
+str = input()
+
+for i in range(len(str)):
+    if str[i].isupper():
+        print(str[i].lower(),end="")
+    else:
+        print(str[i].upper(),end="")
+
+
+
+#include<stdio.h>
+
+int main(){
+char str[101];
+scanf("%s",str);
+int n = strlen(str);
+for(int i=0;i<n;i++){
+if(str[i]>='a' && str[i]<='z'){
+printf("%c",str[i]-32);
+} 
+else{
+printf("%c",str[i]+32);
+}
+}
+}
+
+
+#include<iostream>
+#include<string>
+using namespace std;
+int main(){
+string str;
+cin>>str;
+int n = str.length();
+for(int i=0;i<n;i++){
+if(str[i]>='a' && str[i]<='z'){
+str[i]=str[i]-32;
+cout<<str[i];
+} 
+else{
+str[i]=str[i]+32;
+cout<<str[i];
+}
+
+
+
+package in.javadomain;
+import java.util.*;
+
+public class ChangeToOppositeString {
+
+public static void main(String[] args) {
+char oppositeChar = 0;
+Scanner sc= new Scanner(System.in);
+String input = sc.nextLine();
+for (int i = 0; i < input.length(); i++) {
+CharSequence val = input.subSequence(i, i + 1);
+oppositeChar = oppositeChar(val.charAt(0));
+System.out.print(oppositeChar+"");
+}
+
+}
+
+private static char oppositeChar(char c) {
+char oppoChar = 0;
+if (Character.isLowerCase(c)) {
+oppoChar = Character.toUpperCase(c);
+} else {
+oppoChar = Character.toLowerCase(c);
+}
+return oppoChar;
+}
+}
+

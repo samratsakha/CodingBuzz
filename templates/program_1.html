@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+    <title>CodingBuzz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+
+
+        header {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(0, 217, 255);
+            height: 105px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+            margin-left: 2%;
+            margin-right: 2%;
+        }
+
+        #question {
+            font-size: large;
+            text-align: left;
+            margin: 2%;
+        }
+
+        .code-editor {
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+            margin-left: 4%;
+            margin-right: 2%;
+            margin-bottom: 5%;
+        }
+
+        textarea {
+            font-size: large;
+            resize: none;
+        }
+
+        #language {
+            width: 100px;
+        }
+
+        .code-editor button {
+            width: 100px;
+            height: 40px;
+            margin: 1%;
+        }
+
+        .row {
+            display: flex;
+            margin-left: 1%;
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, .8) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>CodingBuzz</h1>
+    </header>
+    <br>
+    <div class="main-content">
+        <h3>Odd Numbers in a given Range</h3>
+        <p id="question">
+            To find the odd numbers in between the range.<br>
+            Input Format<br>
+            Input represents two integers start and end range<br>
+            Output Format<br>
+            Print the odd numbers separated by space<br>
+            Constraints<br>
+            1<= start<=end<=1000000<br><br>
+                Sample Input 1:<br>
+                2 15<br>
+                Sample Output 1:<br>
+                3 5 7 9 11 13 <br><br>
+                Sample Input 2:<br>
+                89 125<br>
+                Sample Output 2:<br>
+                91 93 95 97 99 101 103 105 107 109 111 113 115 117 119 121 123</p>
+    </div>
+    <div class="code-editor">
+        <h4>Select your Programming Language</h4>
+        <select name="program_language" id="language">
+            <option value="c">C</option>
+            <option value="cpp">C++</option>
+            <option value="java">Java</option>
+            <option value="python">Python 3</option>
+        </select><br>
+        <textarea id="text-editor" name="coding_area" rows="15" cols="100"
+            placeholder="Enter your code here"></textarea><br>
+        <div class="row">
+            <button id="run" onclick="run()">Run</button>
+            <button id="test" onclick="test()">Test Cases</button>
+            <button id="submit" onclick="submit()">Submit</button>
+        </div>
+        <h3>Output : </h3>
+        <h3 id="info_output" style="display: none;"></h3>
+    </div>
+    <div id="modal">
+        <!-- Place at bottom of page -->
+    </div>
+    <form action="{{ url_for('submit_program_1')}}" method="post" id="myform">
+        <input name="final_output" id="sub-val" style="display: none;">
+    </form>
+</body>
+<script type="text/javascript">
+
+
+    // Run - Function
+    function run() {
+        document.getElementById("modal").style.display = "block";
+        end = 1;
+        let lang = document.getElementById("language").value;
+        let code = document.getElementById("text-editor").value;
+
+        var entry = {
+            language: lang,
+            program: code
+        };
+
+        fetch('/program_1/evaluate_program_1', {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify(entry),
+            cache: 'no-cache',
+            headers: new Headers({
+                'content-type': 'application/json'
+            })
+        })
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log('Response status was not 200');
+                    document.getElementById("modal").style.display = "none";
+                    document.getElementById("info_output").innerHTML = "SERVER ERROR";
+                    document.getElementById("info_output").style.display = "block";
+                    return;
+                }
+
+                response.json().then(function (data) {
+                    document.getElementById("modal").style.display = "none";
+                    var display_out = JSON.stringify(data);
+                    var outs = JSON.parse(display_out);
+                    document.getElementById("info_output").innerHTML = outs.output;
+                    document.getElementById("info_output").style.display = "block";
+                })
+            })
+    }
+
+
+    // Test Case - Function
+    function test() {
+
+        document.getElementById("modal").style.display = "block";
+        end = 1;
+        let lang = document.getElementById("language").value;
+        let code = document.getElementById("text-editor").value;
+
+        var entry = {
+            language: lang,
+            program: code
+        };
+
+        fetch('/program_1/evaluate_program_1/test_cases', {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify(entry),
+            cache: 'no-cache',
+            headers: new Headers({
+                'content-type': 'application/json'
+            })
+        })
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log('Response status was not 200');
+                    document.getElementById("modal").style.display = "none";
+                    document.getElementById("info_output").innerHTML = "SERVER ERROR";
+                    document.getElementById("info_output").style.display = "block";
+                    return;
+                }
+
+                response.json().then(function (data) {
+                    document.getElementById("modal").style.display = "none";
+                    var display_out = JSON.stringify(data);
+                    var outs = JSON.parse(display_out);
+                    var final_output = outs.status + "<br><br>Expected Output:<br>3 5 7 9 11 13 <br>Your Output:<br>" + outs.output;
+                    document.getElementById("info_output").innerHTML = final_output;
+                    document.getElementById("info_output").style.display = "block";
+                })
+            })
+
+    }
+
+
+    // Submit the program function
+
+    function submit(){
+        document.getElementById("myform").submit();
+    }
+
+
+    window.onbeforeunload = function (e) {
+        if (end == 1) {
+            window.location.reload(false);
+        }
+        else {
+            return "Are you sure";
+        }
+    };
+
+
+</script>
+
+</html>
