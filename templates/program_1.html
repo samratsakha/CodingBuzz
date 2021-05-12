@@ -134,9 +134,14 @@
     </div>
     <form action="{{ url_for('submit_program_1')}}" method="post" id="myform">
         <input name="final_output" id="sub-val" style="display: none;">
+        <input name="email" id="pass_email" style="display: none;">
     </form>
 </body>
 <script type="text/javascript">
+
+var email_pass = '{{email_pass}}';
+var pass_code = '{{pass_code}}';
+document.getElementById("pass_email").value=email_pass;
 
 
     // Run - Function
@@ -215,7 +220,16 @@
                     document.getElementById("modal").style.display = "none";
                     var display_out = JSON.stringify(data);
                     var outs = JSON.parse(display_out);
-                    var final_output = outs.status + "<br><br>Expected Output:<br>3 5 7 9 11 13 <br>Your Output:<br>" + outs.output;
+                    var code = outs.status;
+                    document.getElementById("sub-val").value=code;
+                    var status="";
+                    if(code=="TEST CASES PASSED"){
+                        status='<span style="color: green;">'+code+"</span>";
+                    }
+                    else{
+                        status='<span style="color: red;">'+code+"</span>";
+                    }
+                    var final_output = status + "<br><br>Expected Output:<br>3 5 7 9 11 13 <br>Your Output:<br>" + outs.output;
                     document.getElementById("info_output").innerHTML = final_output;
                     document.getElementById("info_output").style.display = "block";
                 })

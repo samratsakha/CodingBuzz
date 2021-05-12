@@ -73,39 +73,49 @@
     <div class="program" onclick="program_1_open()">
         <form action="{{ url_for('program_1')}}" method="post" id="start_program_1">
             <h3>1.) Odd Numbers in a Range</h3>
+            <input id="program_1_email" name="email_1" style="display: none;">
         </form>
     </div><br>
     <div class="program" onclick="program_2_open()">
         <form action="{{ url_for('program_2')}}" method="post" id="start_program_2">
             <h3>2.) Reverse a Integer</h3>
+            <input id="program_2_email" name="email_2" style="display: none;">
         </form>
     </div><br>
     <div class="program" onclick="program_3_open()">
         <form action="{{ url_for('program_3')}}" method="post" id="start_program_3">
             <h3>3.) Change Alphabetic Cases in a String</h3>
+            <input id="program_3_email" name="email_3" style="display: none;">
         </form>
     </div><br>
     <div class="program" onclick="program_4_open()">
         <form action="{{ url_for('program_4')}}" method="post" id="start_program_4">
             <h3>4.) Second largest element in an Array</h3>
+            <input id="program_4_email" name="email_4" style="display: none;">
         </form>
     </div><br>
 </body>
 <script type="text/javascript">
 
+let email_pass = '{{email_pass}}';
+
 function program_1_open(){
+    document.getElementById("program_1_email").value=email_pass;
     document.getElementById("start_program_1").submit();
 }
 
 function program_2_open(){
+    document.getElementById("program_2_email").value=email_pass;
     document.getElementById("start_program_2").submit();
 }
 
 function program_3_open(){
+    document.getElementById("program_3_email").value=email_pass;
     document.getElementById("start_program_3").submit();
 }
 
 function program_4_open(){
+    document.getElementById("program_4_email").value=email_pass;
     document.getElementById("start_program_4").submit();
 }
 

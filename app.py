@@ -7,6 +7,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import json
 
+from requests.sessions import Request
+
 # Googlesheets Authentication
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 credentials = ServiceAccountCredentials.from_json_keyfile_name('codingbuzz_credentials.json',scope)
@@ -132,7 +134,7 @@ def login():
             if email_recieve==email[i]:
                 if password_recieve==password[i]:
                     flag = 1
-                    return render_template('dashboard.html')
+                    return render_template('dashboard.html',email_pass=email_recieve)
                 else:
                     flag = 1
                     return render_template('index.html',incorrect_pwd="YES",email_pass=email_recieve)
@@ -169,7 +171,7 @@ def dashboard():
             sheet.update_cell(len_row+1,2,password_recieve)
 
 
-        return render_template('dashboard.html')
+        return render_template('dashboard.html',email_pass=email_recieve)
     else:
         return render_template('index.html')
 
@@ -179,7 +181,16 @@ def dashboard():
 @app.route("/program_1", methods=['POST'])
 def program_1():
     if request.method == 'POST':
-        return render_template('program_1.html',get_output="NO",get_lang="NO",get_code="NO")
+
+        email = [item for item in sheet.col_values(1) if item]
+        email_receive = request.form['email_1']
+
+        code = ""
+        for i in range(1,len(email)):
+            if email_receive==email[i]:
+                code = sheet.cell(i+1,3).value
+
+        return render_template('program_1.html',email_pass=email_receive,pass_code=code)
     else:
         return render_template('index.html')
 
@@ -242,9 +253,17 @@ def evaluate_program_1_test():
 def submit_program_1():
     if request.method == 'POST':
 
-        final_output = request.form['final_output']
+        email = [item for item in sheet.col_values(1) if item]
 
-        return render_template('dashboard.html')
+        final_output = request.form['final_output']
+        email_receive = request.form['email']
+
+        for i in range(1,len(email)):
+            if email_receive==email[i]:
+                sheet.update_cell(i+1,3,final_output)
+
+
+        return render_template('dashboard.html',email_pass=email_receive)
     else:
         return render_template('index.html')
 
@@ -255,7 +274,15 @@ def submit_program_1():
 @app.route("/program_2", methods=['POST'])
 def program_2():
     if request.method == 'POST':
-        return render_template('program_2.html',get_output="NO",get_lang="NO",get_code="NO")
+        email = [item for item in sheet.col_values(1) if item]
+        email_receive = request.form['email_2']
+
+        code = ""
+        for i in range(1,len(email)):
+            if email_receive==email[i]:
+                code = sheet.cell(i+1,4).value
+
+        return render_template('program_2.html',email_pass=email_receive,pass_code=code)
     else:
         return render_template('index.html')
 
@@ -318,9 +345,17 @@ def evaluate_program_2_test():
 def submit_program_2():
     if request.method == 'POST':
 
-        final_output = request.form['final_output']
+        email = [item for item in sheet.col_values(1) if item]
 
-        return render_template('dashboard.html')
+        final_output = request.form['final_output']
+        email_receive = request.form['email']
+
+        for i in range(1,len(email)):
+            if email_receive==email[i]:
+                sheet.update_cell(i+1,4,final_output)
+
+
+        return render_template('dashboard.html',email_pass=email_receive)
     else:
         return render_template('index.html')
 
@@ -332,7 +367,15 @@ def submit_program_2():
 @app.route("/program_3", methods=['POST'])
 def program_3():
     if request.method == 'POST':
-        return render_template('program_3.html',get_output="NO",get_lang="NO",get_code="NO")
+        email = [item for item in sheet.col_values(1) if item]
+        email_receive = request.form['email_3']
+
+        code = ""
+        for i in range(1,len(email)):
+            if email_receive==email[i]:
+                code = sheet.cell(i+1,5).value
+
+        return render_template('program_3.html',email_pass=email_receive,pass_code=code)
     else:
         return render_template('index.html')
 
@@ -395,9 +438,17 @@ def evaluate_program_3_test():
 def submit_program_3():
     if request.method == 'POST':
 
-        final_output = request.form['final_output']
+        email = [item for item in sheet.col_values(1) if item]
 
-        return render_template('dashboard.html')
+        final_output = request.form['final_output']
+        email_receive = request.form['email']
+
+        for i in range(1,len(email)):
+            if email_receive==email[i]:
+                sheet.update_cell(i+1,5,final_output)
+
+
+        return render_template('dashboard.html',email_pass=email_receive)
     else:
         return render_template('index.html')
 
@@ -409,7 +460,15 @@ def submit_program_3():
 @app.route("/program_4", methods=['POST'])
 def program_4():
     if request.method == 'POST':
-        return render_template('program_4.html',get_output="NO",get_lang="NO",get_code="NO")
+        email = [item for item in sheet.col_values(1) if item]
+        email_receive = request.form['email_4']
+
+        code = ""
+        for i in range(1,len(email)):
+            if email_receive==email[i]:
+                code = sheet.cell(i+6,3).value
+
+        return render_template('program_4.html',email_pass=email_receive,pass_code=code)
     else:
         return render_template('index.html')
 
@@ -473,9 +532,17 @@ def evaluate_program_4_test():
 def submit_program_4():
     if request.method == 'POST':
 
-        final_output = request.form['final_output']
+        email = [item for item in sheet.col_values(1) if item]
 
-        return render_template('dashboard.html')
+        final_output = request.form['final_output']
+        email_receive = request.form['email']
+
+        for i in range(1,len(email)):
+            if email_receive==email[i]:
+                sheet.update_cell(i+1,6,final_output)
+
+
+        return render_template('dashboard.html',email_pass=email_receive)
     else:
         return render_template('index.html')
 
